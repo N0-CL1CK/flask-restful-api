@@ -16,3 +16,19 @@ class Notes(Resource):
             return notes_controller.add_note(title, description) if title and description else {'msg': 'invalid fields', 'code': 400}
         else:
             return 404
+
+    def put(self, title):
+        if str(request.url_rule) == '/notes/<string:title>/':
+            new_t, new_d = request.json.get('title'), request.json.get('description')
+            if new_t or new_d:
+                return notes_controller.update_note(title, new_title=new_t, new_description=new_d)
+            else:
+                return 400
+        else:
+            return 404
+    
+    def delete(self, title):
+        if str(request.url_rule) == '/notes/<string:title>/':
+            return notes_controller.delete_note(title)
+        else:
+            return 404
